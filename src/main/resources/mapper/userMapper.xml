@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="nju.ucas2k.dao.UserDao">
 
-    <select id="selectAllUser" resultMap="nju.ucas2k.model.User">
+    <select id="selectAllUser" resultType="nju.ucas2k.model.User">
         select * from user where id = #{id}
     </select>
     <select id="selectById" resultType="nju.ucas2k.model.User">
@@ -11,7 +11,7 @@
     <select id="selectByStudentId" resultType="nju.ucas2k.model.User">
         select * from user where student_id = #{studentId}
     </select>
-    <select id="selectByUsername" resultMap="nju.ucas2k.model.User">
+    <select id="selectByUsername" resultType="nju.ucas2k.model.User">
         select * from user where username = #{username}
     </select>
 
