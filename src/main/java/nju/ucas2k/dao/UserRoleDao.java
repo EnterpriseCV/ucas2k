@@ -7,9 +7,13 @@ import java.util.List;
 
 @Mapper
 public interface UserRoleDao {
-    public List<UserRole> selectByUserId(long userId);
+    public List<UserRole> selectByStudentId(String studentId);
     public UserRole selectById(long id);
+
     public int add(UserRole userRole);
+
+    public int update(UserRole userRole);
+
     public int deleteById(long id);
-    public int deleteByUserId(long userId);
+    public int deleteByStudentId(String studentId);
 }

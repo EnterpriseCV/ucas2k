@@ -1,6 +1,7 @@
 package nju.ucas2k.auth;
 
 import nju.ucas2k.model.User;
+import nju.ucas2k.model.UserPW;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,12 +12,12 @@ public class MyUserDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     // 用户信息
-    private User user;
+    private UserPW userPW;
     // 用户角色
     private Collection<? extends GrantedAuthority> authorities;
 
-    public MyUserDetails(User user, Collection<? extends GrantedAuthority> authorities){
-        this.user = user;
+    public MyUserDetails(UserPW userPW, Collection<? extends GrantedAuthority> authorities){
+        this.userPW = userPW;
         this.authorities = authorities;
     }
 
@@ -27,12 +28,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return this.userPW.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.userPW.getStudentId();
     }
 
     @Override

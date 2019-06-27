@@ -1,8 +1,10 @@
 package nju.ucas2k.auth;
 
 import nju.ucas2k.dao.UserDao;
+import nju.ucas2k.dao.UserPWDao;
 import nju.ucas2k.dao.UserRoleDao;
 import nju.ucas2k.model.User;
+import nju.ucas2k.model.UserPW;
 import nju.ucas2k.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,22 +21,22 @@ import java.util.List;
 @Service("userDetailsService")
 public class MyUserDetailService implements UserDetailsService {
     @Autowired
-    UserDao ud;
+    UserPWDao userPWDao;
     @Autowired
-    UserRoleDao urd;
+    UserRoleDao userRoleDao;
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = ud.selectByUsername(s);
-        if(user==null){
+        UserPW userPW = userPWDao.selectByStudentId(s);
+        if(userPW==null){
             throw new UsernameNotFoundException(s);
         }
-        List<UserRole> userRoleList = urd.selectByUserId(user.getId());
+        List<UserRole> userRoleList = userRoleDao.selectByStudentId(userPW.getStudentId());
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for(UserRole ur : userRoleList) {
             String roleName = ur.getRole();
             SimpleGrantedAuthority grant = new SimpleGrantedAuthority(roleName);
             authorities.add(grant);
         }
-        return new MyUserDetails(user,authorities);
+        return new MyUserDetails(userPW,authorities);
     }
 }

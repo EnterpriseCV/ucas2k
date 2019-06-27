@@ -2,12 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="nju.ucas2k.dao.UserDao">
 
+    <select id="selectAllUser" resultMap="nju.ucas2k.model.User">
+        select * from user where id = #{id}
+    </select>
     <select id="selectById" resultType="nju.ucas2k.model.User">
         select * from user where id = #{id}
     </select>
-
-    <select id="selectByUsername" resultType="nju.ucas2k.model.User">
+    <select id="selectByStudentId" resultType="nju.ucas2k.model.User">
+        select * from user where student_id = #{studentId}
+    </select>
+    <select id="selectByUsername" resultMap="nju.ucas2k.model.User">
         select * from user where username = #{username}
     </select>
+
+    <insert id="add" useGeneratedKeys="true" parameterType="nju.ucas2k.model.User" keyProperty="id">
+        insert into user(student_id,name,sex,id_card,college,institute,phone,bank_card,u_work,authorized) values
+        (#{studentId},#{name},#{sex},#{idCard},#{college},#{institute},#{phone},#{bankCard},#{uWork},#{authorized})
+    </insert>
+
+    <update id="update" parameterType="nju.ucas2k.model.User">
+        update user set name=#{name},id_card=#{idCard},college=#{college},institute=#{institute},
+                         phone=#{phone},bank_card=#{bankCard},u_work=#{uWork}
+        where id=#{id}
+    </update>
+    <update id="updateAuthorized" parameterType="nju.ucas2k.model.User">
+        update user set authorized=#{authorized} where id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from user where id=#{id}
+    </delete>
+    <delete id="deleteByStudentId">
+        delete from user where student_id=#{studentId}
+    </delete>
+
+
 
 </mapper>

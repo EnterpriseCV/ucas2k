@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.ucas2k.dao.UserPWDao">
+
+    <select id="selectByStudentId" resultType="nju.ucas2k.model.UserPW">
+        select * from user_pw where student_id = #{studentId}
+    </select>
+    <insert id="add" parameterType="nju.ucas2k.model.UserPW">
+        insert into user_pw values (#{studentId},#{password})
+    </insert>
+    <update id="update" parameterType="nju.ucas2k.model.UserPW">
+        update user_pw set password=#{password} where student_id=#{studentId}
+    </update>
+    <delete id="delete">
+        delete from user_pw where student_id=#{studentId}
+    </delete>
+
+</mapper>

@@ -5,9 +5,21 @@
     <select id="selectById" resultType="nju.ucas2k.model.UserRole">
         select * from user_role where id = #{id}
     </select>
-
-    <select id="selectByUserId" resultType="nju.ucas2k.model.UserRole">
-        select * from user_role where user_id = #{userId}
+    <select id="selectByStudentId" resultType="nju.ucas2k.model.UserRole">
+        select * from user_role where student_id = #{studentId}
     </select>
+
+    <insert id="add" useGeneratedKeys="true" parameterType="nju.ucas2k.model.UserRole" keyProperty="id">
+        insert into user_role(student_id, role) values (#{studentId},#{role})
+    </insert>
+    <update id="update" parameterType="nju.ucas2k.model.UserRole">
+        update user_role set role=#{role}  where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from user_role where id=#{id}
+    </delete>
+    <delete id="deleteByStudentId">
+        delete from user_role where student_id=#{studentId}
+    </delete>
 
 </mapper>
