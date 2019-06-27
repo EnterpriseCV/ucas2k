@@ -1,11 +1,14 @@
 package nju.ucas2k.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Fee {
 
   private long id;

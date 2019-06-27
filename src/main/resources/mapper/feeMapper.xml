@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.ucas2k.dao.FeeDao">
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into fee(article_id,worker_type,worker_id,pay_date,work_type,work_description,payment) values (#{articleId},#{workerType},#{workerId},#{payDate},#{workType},#{workDescription},#{payment})
+    </insert>
+    <update id="update">
+        update fee set
+            article_id = #{articleId},
+            worker_type = #{workerType},
+            worker_id = #{workerId},
+            pay_date = #{payDate},
+            work_type = #{workType},
+            work_description = #{workDescription},
+            payment = #{payment}
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from fee where id = #{id}
+    </delete>
+    <delete id="deleteByArticleId">
+        delete from fee where article_id = #{articleId}
+    </delete>
+    <delete id="deleteByWorker">
+        delete from fee where worker_type = #{workerType} and worker_id = #{workerId}
+    </delete>
+    <select id="selectByConditions" resultType="nju.ucas2k.model.Fee">
+        select * from fee where 1=1
+        <if test="articleId > 0">
+            and article_id = #{articleId}
+        </if>
+        <if test="workerType != null">
+            and worker_type = #{workerType}
+            <if test="workerId > 0">
+                and worker_id = #{workerId}
+            </if>
+        </if>
+        <if test="startTime != null">
+            and `pay_date` >= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and `pay_date` &lt;= #{endTime}
+        </if>
+    </select>
+
+
+</mapper>
