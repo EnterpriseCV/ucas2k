@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.ucas2k.dao.ArticleDao">
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into article(title,`date`,read_num,zan_num,wechat_id) values (#{title},#{date},#{readNum},#{zanNum},#{wechatId})
+    </insert>
+
+    <select id="selectByTimeAndTitle" resultType="nju.ucas2k.model.Article">
+        select * from article where 1=1
+        <if test="startTime != null">
+            and `date` >= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and `date` &lt;= #{endTime}
+        </if>
+        <if test="title != null">
+            and title like '%${title}%'
+        </if>
+    </select>
+
+</mapper>
