@@ -39,7 +39,8 @@ public interface UserService {
     public int updateRole(long id, String role);
     public int deleteRole(long id);
 
-    public int updatePassword( String studentId,String oldPassword,String newPassword);
+    public int updatePassword(String studentId,String oldPassword,String newPassword);
+    public int resetPassword(String studentId, String password);
 
 
 }

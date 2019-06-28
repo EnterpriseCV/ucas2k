@@ -110,4 +110,9 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    @Override
+    public int resetPassword(String studentId, String password) {
+        return userPWDao.update(new UserPW(studentId,password));
+    }
+
 }
