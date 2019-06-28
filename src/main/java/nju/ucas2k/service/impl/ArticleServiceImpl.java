@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import nju.ucas2k.dao.ArticleDao;
 import nju.ucas2k.model.Article;
 import nju.ucas2k.service.ArticleService;
+import nju.ucas2k.util.PageableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> getArticle(int pageNum,int pageSize,String title, Date startDate, Date endDate) {
+    public PageableList<Article> getArticle(int pageNum, int pageSize, String title, Date startDate, Date endDate) {
         Page page = PageHelper.startPage(pageNum,pageSize);
         articleDao.selectByTimeAndTitle(startDate,endDate,title);
-        return page;
+        return new PageableList(page);
     }
 }
