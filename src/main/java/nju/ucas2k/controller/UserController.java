@@ -66,7 +66,7 @@ public class UserController {
         return new ResEntity<>(200,userList,successMsg);
     }
 
-    @PutMapping("user")
+    @PutMapping("updateUser")
     public ResEntity<Integer> updateUser(long id, String studentId, String name, String sex,
                                          String idCard, String college, String institute,
                                          String phone, String bankCard, String uWork){
@@ -81,7 +81,7 @@ public class UserController {
         return new ResEntity<>(200,res,msg);
     }
 
-    @DeleteMapping("user")
+    @DeleteMapping("deleteUser")
     public ResEntity<Integer> deleteUser(String studentId){
         int res = userService.deleteUser(studentId);
         return new ResEntity<>(200,res,successMsg);

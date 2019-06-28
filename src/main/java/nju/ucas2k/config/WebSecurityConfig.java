@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,14 +33,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/adminhello").hasAuthority(UserRoleType.ADMIN)
-//                .antMatchers("/ordinaryhello").hasAuthority(UserRoleType.USER)
-//                .antMatchers("/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and().formLogin().permitAll()
-//                .defaultSuccessUrl("/").failureUrl("/login?error").permitAll().and()
-//                .logout().permitAll();
+        http.authorizeRequests()
+                .antMatchers("/allUser","/confirmUser","/getUserInfo","/updateUser").hasAuthority(UserRoleType.ADMIN)
+                .antMatchers("/getUserInfo","/updateUser").hasAuthority(UserRoleType.USER)
+                .antMatchers("/register","/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().permitAll()
+                .defaultSuccessUrl("/allUser").failureUrl("/login?error").permitAll().and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login").permitAll();
         http.csrf().disable();
     }
+
 }

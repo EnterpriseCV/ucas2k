@@ -1,9 +1,7 @@
 package nju.ucas2k.auth;
 
-import nju.ucas2k.dao.UserDao;
 import nju.ucas2k.dao.UserPWDao;
 import nju.ucas2k.dao.UserRoleDao;
-import nju.ucas2k.model.User;
 import nju.ucas2k.model.UserPW;
 import nju.ucas2k.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +37,5 @@ public class MyUserDetailService implements UserDetailsService {
         }
         return new MyUserDetails(userPW,authorities);
     }
+
 }

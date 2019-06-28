@@ -10,6 +10,7 @@ import nju.ucas2k.service.UserService;
 import nju.ucas2k.util.AuthorizedResult;
 import nju.ucas2k.util.UserRoleType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +61,8 @@ public class UserServiceImpl implements UserService {
         try {
             result = userDao.addUser(user);
             if(result > 0){
-                userPWDao.add(new UserPW(user.getStudentId(),password));
+                String passwd = new BCryptPasswordEncoder().encode(password);
+                userPWDao.add(new UserPW(user.getStudentId(),passwd));
                 userRoleDao.add(new UserRole(0,user.getStudentId(),role));
             }
         } catch (Exception e) {
@@ -110,15 +112,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updatePassword(String studentId, String oldPassword, String newPassword) {
         UserPW userPW = userPWDao.selectByStudentId(studentId);
-        if(oldPassword.equals(userPW.getPassword())){
-            return userPWDao.update(new UserPW(studentId,newPassword));
+        if(new BCryptPasswordEncoder().matches(oldPassword,userPW.getPassword())){
+            return userPWDao.update(new UserPW(studentId,new BCryptPasswordEncoder().encode(newPassword)));
         }
         return 0;
     }
 
     @Override
     public int resetPassword(String studentId, String password) {
-        return userPWDao.update(new UserPW(studentId,password));
+        return userPWDao.update(new UserPW(studentId,new BCryptPasswordEncoder().encode(password)));
     }
 
 }

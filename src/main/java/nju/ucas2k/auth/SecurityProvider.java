@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service("securityProvider")
@@ -45,7 +46,7 @@ public class SecurityProvider implements AuthenticationProvider {
 
         String password = userDetails.getPassword();
         //与authentication里面的credentials相比较
-        if(!password.equals(token.getCredentials())) {
+        if(!new BCryptPasswordEncoder().matches(token.getCredentials().toString(),password)) {
             throw new BadCredentialsException("Invalid username/password");
         }
         //授权
