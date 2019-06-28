@@ -3,21 +3,24 @@
 <mapper namespace="nju.ucas2k.dao.UserDao">
 
     <select id="selectAllUser" resultType="nju.ucas2k.model.User">
-        select * from user where id = #{id}
+        select * from user where authorized=1
+    </select>
+    <select id="selectUncheckedUser" resultType="nju.ucas2k.model.User">
+        select * from user where authorized=0
     </select>
     <select id="selectById" resultType="nju.ucas2k.model.User">
-        select * from user where id = #{id}
+        select * from user where id = #{id} and authorized=1
     </select>
     <select id="selectByStudentId" resultType="nju.ucas2k.model.User">
-        select * from user where student_id = #{studentId}
+        select * from user where student_id = #{studentId} and authorized=1
     </select>
     <select id="selectByUsername" resultType="nju.ucas2k.model.User">
-        select * from user where username = #{username}
+        select * from user where username = #{username} and authorized=1
     </select>
 
     <insert id="add" useGeneratedKeys="true" parameterType="nju.ucas2k.model.User" keyProperty="id">
-        insert into user(student_id,name,sex,id_card,college,institute,phone,bank_card,u_work,authorized) values
-        (#{studentId},#{name},#{sex},#{idCard},#{college},#{institute},#{phone},#{bankCard},#{uWork},#{authorized})
+        insert into user(student_id,name,sex,id_card,college,institute,phone,bank_card,u_work) values
+        (#{studentId},#{name},#{sex},#{idCard},#{college},#{institute},#{phone},#{bankCard},#{uWork})
     </insert>
 
     <update id="update" parameterType="nju.ucas2k.model.User">

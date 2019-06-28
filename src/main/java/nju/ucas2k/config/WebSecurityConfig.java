@@ -1,6 +1,7 @@
 package nju.ucas2k.config;
 
 import nju.ucas2k.auth.MyUserDetailService;
+import nju.ucas2k.util.UserRoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
-//                .antMatchers("/adminhello").hasAuthority("admin")
-//                .antMatchers("/ordinaryhello").hasAuthority("ordinary")
+//                .antMatchers("/adminhello").hasAuthority(UserRoleType.ADMIN)
+//                .antMatchers("/ordinaryhello").hasAuthority(UserRoleType.USER)
 //                .antMatchers("/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
 //                .anyRequest().authenticated()
 //                .and().formLogin().permitAll()

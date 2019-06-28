@@ -15,6 +15,9 @@
     <update id="update" parameterType="nju.ucas2k.model.UserRole">
         update user_role set role=#{role}  where id=#{id}
     </update>
+    <update id="updateById">
+        update user_role set role=#{role}  where id=#{id}
+    </update>
     <delete id="deleteById">
         delete from user_role where id=#{id}
     </delete>

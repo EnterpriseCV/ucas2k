@@ -13,6 +13,7 @@ public interface UserRoleDao {
     public int add(UserRole userRole);
 
     public int update(UserRole userRole);
+    public int updateById(long id, String role);
 
     public int deleteById(long id);
     public int deleteByStudentId(String studentId);
