@@ -5,6 +5,7 @@ import nju.ucas2k.service.FeeService;
 import nju.ucas2k.util.PageableList;
 import nju.ucas2k.util.ResEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
