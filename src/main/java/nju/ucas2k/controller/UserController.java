@@ -1,11 +1,11 @@
 package nju.ucas2k.controller;
 
-import nju.ucas2k.dao.UserDao;
 import nju.ucas2k.model.User;
 import nju.ucas2k.service.UserService;
 import nju.ucas2k.util.AuthorizedResult;
 import nju.ucas2k.util.ResEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +27,11 @@ public class UserController {
                                 phone,bankCard,uWork,AuthorizedResult.WAITED);
 
         int res = userService.addUser(user,password);
-        return new ResEntity<>(200,res,successMsg);
+        String msg = successMsg;
+        if(res == 0){
+            msg = "fail: 未添加成功，请检查是否该学号已注册";
+        }
+        return new ResEntity<>(200,res,msg);
     }
     @PutMapping("confirmUser")
     public ResEntity<Integer> check(String studentId,int authorized){
@@ -35,7 +39,7 @@ public class UserController {
         int res = userService.updateAuthorized(studentId,authorized);
         String msg = successMsg;
         if(res == 0){
-            msg = "fail: authorized参数错误";
+            msg = "fail: 参数错误";
         }
         return new ResEntity<>(200,res,msg);
     }
@@ -45,6 +49,17 @@ public class UserController {
         List<User> userList = userService.getAllUser();
         return new ResEntity<>(200,userList,successMsg);
     }
+    @GetMapping("getBriefUserInfo")
+    public ResEntity<List<User>> getBriefUserInfo(){
+        List<User> userList = userService.getAllUser();
+        return new ResEntity<>(200,userList,successMsg);
+    }
+    @GetMapping("getUserInfo")
+    public ResEntity<User> getUserInfo(String studentId){
+        User user = userService.getUserByStudentId(studentId);
+        return new ResEntity<>(200,user,successMsg);
+    }
+
     @GetMapping("uncheckedUser")
     public ResEntity<List<User>> getUncheckedUser(){
         List<User> userList = userService.getUncheckUser();
@@ -52,13 +67,18 @@ public class UserController {
     }
 
     @PutMapping("user")
-    public ResEntity<Integer> updateUser(long id,String studentId,String name,String sex,
+    public ResEntity<Integer> updateUser(long id, String studentId, String name, String sex,
                                          String idCard, String college, String institute,
-                                         String phone, String bankCard,String uWork){
-        User user = new User(id,studentId,name,sex,idCard,college,institute,
-                             phone,bankCard,uWork,AuthorizedResult.PASS);
-        int res = userService.updateUser(user);
-        return new ResEntity<>(200,res,successMsg);
+                                         String phone, String bankCard, String uWork){
+        int res = 0;
+        String msg = "fail: 权限不足";
+        if(SecurityContextHolder.getContext().getAuthentication().getName().equals(studentId)){
+            User user = new User(id,studentId,name,sex,idCard,college,institute,
+                    phone,bankCard,uWork,AuthorizedResult.PASS);
+            res = userService.updateUser(user);
+            msg = successMsg;
+        }
+        return new ResEntity<>(200,res,msg);
     }
 
     @DeleteMapping("user")

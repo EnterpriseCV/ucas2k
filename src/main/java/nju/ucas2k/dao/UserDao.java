@@ -15,7 +15,7 @@ public interface UserDao {
     public User selectByStudentId(String studentId);
     public List<User> selectByUsername(String username);
 
-    public int addUser(User user);
+    public int addUser(User user) throws Exception;
 
     public int update(User user);
     public int updateAuthorizedByStudentId(String studentId, long authorized);

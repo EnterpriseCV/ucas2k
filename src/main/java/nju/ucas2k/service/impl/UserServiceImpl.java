@@ -56,10 +56,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addUser(User user, String password, String role) {
-        int result = userDao.addUser(user);
-        if(result > 0){
-            userPWDao.add(new UserPW(user.getStudentId(),password));
-            userRoleDao.add(new UserRole(0,user.getStudentId(),role));
+        int result = 0;
+        try {
+            result = userDao.addUser(user);
+            if(result > 0){
+                userPWDao.add(new UserPW(user.getStudentId(),password));
+                userRoleDao.add(new UserRole(0,user.getStudentId(),role));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return result;
         }
         return result;
     }

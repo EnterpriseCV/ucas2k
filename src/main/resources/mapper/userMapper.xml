@@ -18,7 +18,7 @@
         select * from user where username = #{username} and authorized=1
     </select>
 
-    <insert id="add" useGeneratedKeys="true" parameterType="nju.ucas2k.model.User" keyProperty="id">
+    <insert id="addUser" useGeneratedKeys="true" parameterType="nju.ucas2k.model.User" keyProperty="id">
         insert into user(student_id,name,sex,id_card,college,institute,phone,bank_card,u_work) values
         (#{studentId},#{name},#{sex},#{idCard},#{college},#{institute},#{phone},#{bankCard},#{uWork})
     </insert>
@@ -28,8 +28,11 @@
                          phone=#{phone},bank_card=#{bankCard},u_work=#{uWork}
         where id=#{id}
     </update>
-    <update id="updateAuthorized" parameterType="nju.ucas2k.model.User">
+    <update id="updateAuthorizedById">
         update user set authorized=#{authorized} where id=#{id}
+    </update>
+    <update id="updateAuthorizedByStudentId">
+        update user set authorized=#{authorized} where student_id=#{studentId}
     </update>
 
     <delete id="deleteById">
