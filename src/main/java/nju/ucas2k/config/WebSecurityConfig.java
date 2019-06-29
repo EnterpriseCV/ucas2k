@@ -5,6 +5,7 @@ import nju.ucas2k.util.UserRoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,8 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/allUser","/confirmUser","/getUserInfo","/updateUser").hasAuthority(UserRoleType.ADMIN)
-                .antMatchers("/getUserInfo","/updateUser").hasAuthority(UserRoleType.USER)
+                .antMatchers("/allUser","/confirmUser","/getBriefUserInfo","/deleteUser","/uncheckedUser",
+                        "/resetPassword","/fee","/userouter").hasAuthority(UserRoleType.ADMIN)
+                .antMatchers(HttpMethod.GET,"/getUserInfo","/fee","/userouter","/article").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
+                .antMatchers(HttpMethod.POST,"/fee","/userouter").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
+                .antMatchers(HttpMethod.PUT,"/updateUser","/modifyPassword").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
                 .antMatchers("/register","/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
