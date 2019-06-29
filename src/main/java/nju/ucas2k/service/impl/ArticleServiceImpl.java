@@ -26,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageableList<Article> getArticle(int pageNum, int pageSize, String title, Date startDate, Date endDate) {
         Page page = PageHelper.startPage(pageNum,pageSize);
+        page.setOrderBy("`date` desc");
         articleDao.selectByTimeAndTitle(startDate,endDate,title);
         return new PageableList(page);
     }

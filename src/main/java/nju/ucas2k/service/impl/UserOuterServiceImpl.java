@@ -7,6 +7,8 @@ import nju.ucas2k.service.UserOuterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserOuterServiceImpl implements UserOuterService {
 
@@ -19,8 +21,13 @@ public class UserOuterServiceImpl implements UserOuterService {
     }
 
     @Override
-    public UserOuter getUserOuter(long id) {
+    public UserOuter getUserOuterById(long id) {
         return userOuterDao.selectById(id);
+    }
+
+    @Override
+    public List<UserOuter> getUserOuter() {
+        return userOuterDao.selectAll();
     }
 
     @Override

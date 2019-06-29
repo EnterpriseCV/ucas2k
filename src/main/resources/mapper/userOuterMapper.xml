@@ -29,4 +29,7 @@
     <select id="selectById" resultType="nju.ucas2k.model.UserOuter">
         select * from user_outer where id = #{id}
     </select>
+    <select id="selectAll" resultType="nju.ucas2k.model.UserOuter">
+        select * from user_outer
+    </select>
 </mapper>

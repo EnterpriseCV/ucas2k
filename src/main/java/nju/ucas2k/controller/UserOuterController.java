@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class UserOuterController {
@@ -14,9 +16,14 @@ public class UserOuterController {
     @Autowired
     UserOuterService userOuterService;
 
+    @GetMapping("/userouter/{id}")
+    public ResEntity<UserOuter> getUserOuterById(@PathVariable long id){
+        return new ResEntity(200,userOuterService.getUserOuterById(id),null);
+    }
+
     @GetMapping("/userouter")
-    public ResEntity<UserOuter> getUserOuter(long id){
-        return new ResEntity(200,userOuterService.getUserOuter(id),null);
+    public ResEntity<List<UserOuter>> getUserOuter(){
+        return new ResEntity(200,userOuterService.getUserOuter(),null);
     }
 
     @PostMapping("/userouter")

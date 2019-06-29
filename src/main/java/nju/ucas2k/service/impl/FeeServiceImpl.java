@@ -40,6 +40,7 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public PageableList<Fee> selectByConditions(int pageNum,int pageSize,long articleId, String workerType, long workerId, Date startTime, Date endTime) {
         Page page = PageHelper.startPage(pageNum,pageSize);
+        page.setOrderBy("pay_date desc");
         feeDao.selectByConditions(articleId,workerType,workerId,startTime,endTime);
         return new PageableList(page);
     }
