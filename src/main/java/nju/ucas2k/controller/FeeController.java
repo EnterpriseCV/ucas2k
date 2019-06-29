@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -47,6 +49,30 @@ public class FeeController {
                                                Date startTime,
                                                Date endTime){
         return new ResEntity(200,feeService.selectByConditions(pageNum,pageSize,articleId,workerType,workerId,workType,startTime,endTime),null);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "articleId", required = true, value = "费用所属文章的id，不启用时设置为-1"),
+            @ApiImplicitParam(name = "workerType", value = "人员类型，启用时为inner或outer"),
+            @ApiImplicitParam(name = "workerId", required = true, value = "人员id，启用workerType且值为正整数时有用，不启用设为-1"),
+            @ApiImplicitParam(name = "workType", value = "工作类型"),
+            @ApiImplicitParam(name = "startTime", value = "开始时间"),
+            @ApiImplicitParam(name = "endTime", value = "结束时间")
+    })
+    @GetMapping("/fee/statistic")
+    public ResEntity<Double> getFee(
+                                               long articleId,
+                                               String workerType,
+                                               long workerId,
+                                               String workType,
+                                               Date startTime,
+                                               Date endTime){
+        double result = 0;
+        List<Fee> feeList = feeService.selectByConditions(-1,-1,articleId,workerType,workerId,workType,startTime,endTime).getData();
+        for(Fee fee:feeList){
+            result += fee.getPayment();
+        }
+        return new ResEntity(200,result,null);
     }
 
     @PutMapping("/fee")

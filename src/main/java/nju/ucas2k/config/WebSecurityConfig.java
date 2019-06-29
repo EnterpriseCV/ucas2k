@@ -34,20 +34,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/allUser","/confirmUser","/getBriefUserInfo","/deleteUser","/uncheckedUser",
-                        "/resetPassword","/fee","/userouter").hasAuthority(UserRoleType.ADMIN)
-                .antMatchers(HttpMethod.GET,"/getUserInfo","/fee","/userouter","/article").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
-                .antMatchers(HttpMethod.POST,"/fee","/userouter").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
-                .antMatchers(HttpMethod.PUT,"/updateUser","/modifyPassword").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
-                .antMatchers("/register","/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().permitAll()
-                .defaultSuccessUrl("/allUser").failureUrl("/login?error").permitAll().and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login").permitAll();
-        http.csrf().disable();
+//        http.authorizeRequests()
+//                .antMatchers("/allUser","/confirmUser","/getBriefUserInfo","/deleteUser","/uncheckedUser",
+//                        "/resetPassword","/fee","/userouter").hasAuthority(UserRoleType.ADMIN)
+//                .antMatchers(HttpMethod.GET,"/getUserInfo","/fee","/userouter","/article").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
+//                .antMatchers(HttpMethod.POST,"/fee","/userouter").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
+//                .antMatchers(HttpMethod.PUT,"/updateUser","/modifyPassword").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
+//                .antMatchers("/register","/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and().formLogin().permitAll()
+//                .defaultSuccessUrl("/allUser").failureUrl("/login?error").permitAll().and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login").permitAll();
+//        http.csrf().disable();
     }
 
 }
