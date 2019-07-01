@@ -36,6 +36,9 @@
                 and worker_id = #{workerId}
             </if>
         </if>
+        <if test="workType != null">
+            and work_type like #{workType}
+        </if>
         <if test="startTime != null">
             and `pay_date` >= #{startTime}
         </if>
