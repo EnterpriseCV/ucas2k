@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>文章管理</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.1/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/show.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/menu.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/login.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/site.css">
+
+  <link rel="stylesheet" type="text/css" href="../static/css/container.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/grid.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/header.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/image.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/menu.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/dropdown.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/dropdown.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../static/css/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/divider.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/dropdown.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/segment.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/button.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/list.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/sidebar.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/transition.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/fee.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/user.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/calendar.css">
+
+<!--   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+<!--   <script src="../static/js/jquery-3.3.1.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.1/dist/semantic.min.js"></script> -->
+  <script src="../static/js/jquery.js"></script>
+  <script src="../static/js/jquery-ui.js"></script>
+  <script src="../static/js/semantic.min.js"></script>
+  <script src="../static/js/sweetalert.min.js"></script>
+  <script src="../static/js/visibility.js"></script>
+  <script src="../static/js/sidebar.js"></script>
+  <script src="../static/js/calendar.js"></script>
+  <script src="../static/js/dropdown.js"></script>
+  <script src="../static/js/dropdown.min.js"></script>
+  <script src="../static/js/sha256.js"></script>
+  <script src="../static/js/transition.js"></script>
+  <!-- <script src="./image_load.js"> -->
+  <script>
+  $(document).ready(function() {
+
+      // fix menu when passed
+      $('.masthead')
+        .visibility({
+          once: false,
+          onBottomPassed: function() {
+            $('.fixed.menu').transition('fade in');
+          },
+          onBottomPassedReverse: function() {
+            $('.fixed.menu').transition('fade out');
+          }
+        })
+      ;
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item')
+      ;
+
+    })
+  ;
+  </script>
+</head>
+<body>
+
+<!-- Page Contents -->
+<div class="pusher">
+  <div class="ui feebox">
+    <div class="ui feeleftbox vertical inverted menu">
+      <div class="ui feeheader">
+        <img src="../images/schoolmark.jpg" style="width: 100%">
+      </div>
+        <a class="ui item loaduserbutton" id="user_mng">用户管理</a>
+        <a class="ui item fee_user_label" id="fee_mng">费用管理</a>
+        <a class="ui item active " id="user_article">文章管理</a>
+      <div class="ui center">
+        <a class="ui inverted button" href="login.html">退出登陆</a>
+      </div>
+<!--         <a class="ui item fee_outeruser_label"  href="fee_outer.html">费用管理outer</a> -->
+    </div>
+    
+    <div class="ui feerightbox">
+
+        <div class="fee_show">
+          <div class="ui secondary pointing menu">
+            <a class="active item" id="article_key_label">
+              文章标题
+            </a>
+            <!-- <a class="item" id="article_user_label">
+              用户
+            </a> -->
+            <a class="item" id="article_date_label">
+              日期
+            </a>
+            <a class="item" id="article_info_label">
+              文章信息
+            </a>
+          </div>
+          <div class="ui segment">
+
+            <table class="ui celled table article_key_show">
+              <div class="ui article_key_show">
+               <div class="field ui icon userid">
+                  <div class="ui left icon input keyword" >
+                    <input type="text" placeholder="文章标题" id="keyword">
+                  </div>
+                  <div class="ui button SearchByKey" tabindex="0">查找</div>
+                </div>
+              </div>       
+              <thead>
+                <tr><th>文章标题</th>
+                <!-- <th>文章位</th> -->
+                <th>时间</th>
+                <th>阅读量</th>
+                <!-- <th>赞数</th> -->
+				<th>详情</th>
+              </tr></thead>
+        
+              <tbody class="article_user_container">
+              
+              </tbody>
+            </table>
+
+<!--             <table class="ui celled table article_user_show" hidden>
+              <div class="article_user_show" hidden>
+               <div class="field ui icon userid">
+                  <div class="ui left icon input userid" >
+                    <input type="text" placeholder="userid" id="userid">
+                  </div>
+                  <div class="ui button SearchByUser" tabindex="0">查找</div>
+                </div>
+              </div>       
+			  <thead>
+                <tr><th>文章标题</th>
+                <th>文章位</th>
+                <th>时间</th>
+                <th>阅读量</th>
+                <th>赞数</th>
+				<th>详情</th>
+				<th>删除</th>
+              </tr></thead>
+        
+              <tbody class="article_user_container">
+
+              </tbody>
+            </table> -->
+
+            <table class="ui celled structured table article_date_show" hidden>
+              <div class="article_date_show" hidden>
+                <div class="field">
+                  <div class="ui left icon input calendar shoottime" id="starttime" >
+                    <input type="text" placeholder="开始时间" id="startdate">
+                    <i class="calendar alternate icon"></i>
+                  </div>
+                  <div class="ui left icon input calendar shoottime" id="endtime">
+                    <input type="text" placeholder="结束时间" id="enddate">
+                    <i class="calendar alternate icon"></i>
+                  </div>
+                  <div class="ui button SearchByTime" tabindex="0">查找</div>
+                </div>
+              </div>
+              <thead>
+                <tr><th>文章标题</th>
+                <!-- <th>文章位</th> -->
+                <th>时间</th>
+                <th>阅读量</th>
+                <!-- <th>赞数</th> -->
+                <th>详情</th>
+<!--                 <th>删除</th> -->
+              </tr></thead>
+        
+              <tbody class="article_user_container">
+				<!-- <tr>
+                  <td>哈哈</td>
+                  <td>1</td>
+                  <td>2019-01-20</td>
+                  <td>20</td>
+                  <td>20</td>
+                  <td><button class="ui active button detailbutton">详情</button></td>
+                  <td><button class="ui active button artdelbutton">删除</button></td>
+                </tr>
+                <tr>
+                  <td>好好</td>
+                  <td>2</td>
+                  <td>2019-01-20</td>
+                  <td>20</td>
+                  <td>20</td>
+                  <td><button class="ui active button detailbutton">详情</button></td>
+                  <td><button class="ui active button artdelbutton">删除</button></td>
+                </tr> -->
+              </tbody>
+            </table>
+
+            <form class="ui form article_info_show" onsubmit="return false" hidden>
+            	<table class="ui celled structured table article_info_show info_table">
+            	  <thead>
+            	  	<tr>
+            		<th colspan="2">
+                      基本信息
+                    </th>
+	                </tr>
+                  </thead>
+	        
+	              <tbody class="article_info_container">
+	                <tr>
+	                  <td>文章名称</td>
+	                  <td id="infotitle">美术</td>
+	                </tr>
+	                <tr>
+	                  <td>阅读量</td>
+					  <td id="inforead">10</td>
+	                </tr>
+<!-- 	                <tr>
+	                  <td>赞数</td>
+	                 <td id="infozan">10</td>
+	                </tr> -->
+	              </tbody>
+	            </table>
+            	<table class="ui celled structured table article_info_show inner_user_table">
+            	  <thead>
+            		<tr><th colspan="3">
+                    内部人员</th>
+                    </tr>
+                  </thead>
+	              <thead>
+	                <tr><th>人员名称</th>
+	                <th>职位</th>
+	                <th>删除</th>
+	              </tr></thead>
+	        
+	              <tbody class="inner_info_container">
+	                <tr>
+	                  <td>哈哈</td>
+	                  <td>美术</td>
+	                  <td><button class="ui active button indelbutton">删除</button></td>
+	                </tr>
+	                <tr>
+	                  <td>哈哈</td>
+	                  <td>美术</td>
+	                  <td><button class="ui active button indelbutton">删除</button></td>
+	                </tr>
+	                <tr>
+	                  <td>哈哈</td>
+	                  <td>美术</td>
+	                  <td><button class="ui active button indelbutton">删除</button></td>
+	                </tr>
+	              </tbody>
+	            </table>
+	            
+	            <table class="ui celled structured table article_info_show outer_user_table">
+            	  <thead>
+            		<tr><th colspan="5">
+                    外部人员</th>
+                    </tr>
+                  </thead>
+	              <thead>
+	                <tr><th>人员名称</th>
+	                <th>银行卡号</th>
+	                <th>手机号</th>
+	                <th>工作</th>
+	                <th>删除</th>
+	              </tr></thead>
+	        
+	              <tbody class="outer_info_container">
+	                <!-- <tr>
+	                  <td>哈哈</td>
+	                  <td>11</td>
+	                  <td>188</td>
+	                  <td>摸鱼</td>
+	                </tr>
+	                <tr>
+	                  <td>哈哈</td>
+	                  <td>11</td>
+	                  <td>188</td>
+	                  <td>摸鱼</td>
+	                </tr>
+	                <tr>
+	                  <td>哈哈</td>
+	                  <td>11</td>
+	                  <td>188</td>
+	                  <td>摸鱼</td>
+	                </tr> -->
+	              </tbody>
+	            </table>
+            
+            	<div class="ui inner_list">
+                  <div class="field">
+                    <label>
+                      内部人员信息信息
+                      <button class="ui circular plus icon button" id="inner_add_button">
+                        <i class="plus icon"></i>
+                      </button>
+                    </label>
+                  </div>
+
+                  <div class="ui form">
+                    <div class="three fields icon">
+                      <div class="field">
+                        <label>工作类型</label>
+                      </div>
+                      <div class="field">
+                        <label>工作人员id</label>
+                      </div>
+                      <div class="field">
+                        <label>其他工作备注</label>
+                      </div>
+                    </div>
+
+					<div class="inner_hidden_unit" hidden>
+	                    <div class="three fields inner_unit">
+	                      <div class="field">
+	                        <select class="ui dropdown worktype">
+	                          <option value="9">Project</option>
+	                          <option value="8">H5</option>
+	                          <option value="7">视频</option>
+	                          <option value="6">图片</option>
+	                          <option value="5">漫画</option>
+	                          <option value="4">音频</option>
+	                          <option value="3">文字</option>
+	                          <option value="2">美术编辑</option>
+	                          <option value="1">责任编辑</option>
+	                          <option value="0">其他</option>
+	                        </select>
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" class="inner_work" placeholder="工作人员id">
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" placeholder="其他工作备注" hidden>
+	                      </div>
+	                      <button class="ui circular plus icon button inner_unit_icon">
+	                        <i class="minus icon"></i>
+	                      </button>
+	                    </div>
+	                </div>
+	                
+	                <div  id="inner_show">
+		                <div class="inner_hidden_unit">
+		                    <div class="three fields inner_unit">
+		                      <div class="field">
+		                        <select class="ui dropdown worktype">
+		                          <option value="9">Project</option>
+		                          <option value="8">H5</option>
+		                          <option value="7">视频</option>
+		                          <option value="6">图片</option>
+		                          <option value="5">漫画</option>
+		                          <option value="4">音频</option>
+		                          <option value="3">文字</option>
+		                          <option value="2">美术编辑</option>
+		                          <option value="1">责任编辑</option>
+		                          <option value="0">其他</option>
+		                        </select>
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" class="inner_work" placeholder="工作人员id">
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" placeholder="其他工作备注" hidden>
+		                      </div>
+		                      <button class="ui circular plus icon button inner_unit_icon">
+		                        <i class="minus icon"></i>
+		                      </button>
+		                    </div>
+		                </div>
+		            </div>
+
+                  </div>
+                </div>
+
+				<div class="ui outer_list">
+                  <div class="field">
+                    <label>
+                      外部人员信息信息
+                      <button class="ui circular plus icon button" id="outer_add_button">
+                        <i class="plus icon"></i>
+                      </button>
+                    </label>
+                  </div>
+
+                  <div class="ui form">
+                    <div class="five fields icon">
+                      <div class="field">
+                        <label>工作内容</label>
+                      </div>
+                      <div class="field">
+                        <label>工作人员</label>
+                      </div>
+                      <div class="field">
+                        <label>新增工作人员身份证</label>
+                      </div>
+                      <div class="field">
+                        <label>新增工作人员银行卡</label>
+                      </div>
+                      <div class="field">
+                        <label>新增工作人员手机号</label>
+                      </div>
+                    </div>
+					
+					<div class="outer_hidden_unit" hidden>
+						<div class="five fields outer_unit">
+	                      <div class="field">
+	                        <input type="text" placeholder="工作内容">
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" class="outer_work" placeholder="工作人员">
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" class="outer_work_id" placeholder="新增工作人员身份证" hidden>
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" class="outer_work_bank" placeholder="新增工作人员身份证" hidden>
+	                      </div>
+	                      <div class="field">
+	                        <input type="text" class="outer_work_phone" placeholder="新增工作人员身份证" hidden>
+	                      </div>
+	                      <button class="ui circular plus icon button outer_unit_icon">
+	                        <i class="minus icon"></i>
+	                      </button>
+	                    </div>
+                    </div>
+					<div  id="outer_show">
+						<div class="outer_hidden_unit">
+		                    <div class="five fields outer_unit">
+		                      <div class="field">
+		                        <input type="text" placeholder="工作内容">
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" class="outer_work" placeholder="工作人员">
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" class="outer_work_id" placeholder="新增工作人员身份证" hidden>
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" class="outer_work_bank" placeholder="新增工作人员身份证" hidden>
+		                      </div>
+		                      <div class="field">
+		                        <input type="text" class="outer_work_phone" placeholder="新增工作人员身份证" hidden>
+		                      </div>
+		                      <button class="ui circular plus icon button outer_unit_icon">
+		                        <i class="minus icon"></i>
+		                      </button>
+		                    </div>
+		                </div>
+		            </div>
+
+                  </div>
+                </div>
+
+				<button class="ui button article_change"> 提交 </button>       
+            </form>
+
+            </div>
+
+          </div>
+        </div>
+
+    </div> <!-- feerightbox -->
+
+    </div>
+  </div>
+
+
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+            <div class="wide column center" align="right">
+                <p>Copyright © 国科大官微·专业技术小组</p>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script src="../static/js/article_search.js"></script>
+<script src="../static/js/article.js"></script>
+
+</html>

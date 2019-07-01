@@ -40,13 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/getUserInfo","/fee","/userouter","/article").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
                 .antMatchers(HttpMethod.POST,"/fee","/userouter").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
                 .antMatchers(HttpMethod.PUT,"/updateUser","/modifyPassword").hasAnyAuthority(UserRoleType.USER,UserRoleType.ADMIN)
-                .antMatchers("/register","/images/**","/webjars/**", "/components/**","/js/**","/css/**","/templates/**","/storePic/**").permitAll()
+                .antMatchers("/register","/images/**","/**.html", "/components/**","/js/**","/css/**","/templates/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().permitAll()
-                .defaultSuccessUrl("/allUser").failureUrl("/login?error").permitAll().and()
+                .and().formLogin()
+                .loginPage("/login.html").permitAll()
+                .defaultSuccessUrl("/fee_login.html").failureUrl("/login.html?error").permitAll().and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login").permitAll();
+                .logoutSuccessUrl("/login.html").permitAll();
         http.csrf().disable();
     }
 

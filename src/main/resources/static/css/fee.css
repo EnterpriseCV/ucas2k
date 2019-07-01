@@ -1,0 +1,48 @@
+.feebox{
+    height: 800px;
+    /*height: 100%;*/
+    display: table;
+    width: 100%;
+    text-align: center;
+    padding-right: 30px;
+    background:rgba(255,255,255,0.5);
+}
+
+.feeheader {
+    height: 80px;
+    line-height: 80px;
+    display: table-row;
+}
+
+.feemain {
+    height: 100%;
+    display: table;
+    width: 100%;
+}
+
+.feeleftbox {
+  display: table-cell;
+  width: 20%;
+  height: 100%;
+  line-height: 100%;
+  background: #d6ecf0; 
+}
+
+.feerightbox {
+  display: table-cell;
+  width: 80%;
+  height: 100%;
+  line-height: 100%;
+}
+
+.feeitem {
+  position: relative;
+  vertical-align: middle;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.fee_show {
+  padding-right: 30px;
+  padding-left: 30px;
+}
